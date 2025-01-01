@@ -1,0 +1,68 @@
+! Rouge Theme Color Palette for XTerm
+XTerm*foreground: #E5C07B  ! Golden Yellow (for text)
+XTerm*background: #282C34  ! Dark Gray (for background)
+XTerm*cursorColor: #D19A66  ! Warm Orange (for cursor)
+XTerm*color0: #282C34  ! Dark Gray (for black)
+XTerm*color1: #E06C75  ! Soft Red (for red)
+XTerm*color2: #98C379  ! Green (for green)
+XTerm*color3: #E5C07B  ! Golden Yellow (for yellow)
+XTerm*color4: #61AFEF  ! Light Blue (for blue)
+XTerm*color5: #C678DD  ! Purple (for magenta)
+XTerm*color6: #56B6C2  ! Soft Cyan (for cyan)
+XTerm*color7: #ABB2BF  ! Light Gray (for white)
+XTerm*color8: #5C6370  ! Gray
+XTerm*color9: #E06C75  ! Soft Red (for bright red)
+XTerm*color10: #98C379  ! Green (for bright green)
+XTerm*color11: #E5C07B  ! Golden Yellow (for bright yellow)
+XTerm*color12: #61AFEF  ! Light Blue (for bright blue)
+XTerm*color13: #C678DD  ! Purple (for bright magenta)
+XTerm*color14: #56B6C2  ! Soft Cyan (for bright cyan)
+XTerm*color15: #FFFFFF  ! White (for bright white)
+
+! Atom One Dark Theme Color Palette for XTerm
+!XTerm*foreground: #ABB2BF  ! Light Gray (for text)
+!XTerm*background: #282C34  ! Dark Gray (for background)
+!XTerm*cursorColor: #528BFF  ! Blue (for cursor)
+!XTerm*color0: #282C34  ! Dark Gray (for black)
+!XTerm*color1: #E06C75  ! Soft Red (for red)
+!XTerm*color2: #98C379  ! Green (for green)
+!XTerm*color3: #E5C07B  ! Yellow (for yellow)
+!XTerm*color4: #61AFEF  ! Light Blue (for blue)
+!XTerm*color5: #C678DD  ! Purple (for magenta)
+!XTerm*color6: #56B6C2  ! Soft Cyan (for cyan)
+!XTerm*color7: #ABB2BF  ! Light Gray (for white)
+!XTerm*color8: #5C6370  ! Gray
+!XTerm*color9: #E06C75  ! Soft Red (for bright red)
+!XTerm*color10: #98C379  ! Green (for bright green)
+!XTerm*color11: #E5C07B  ! Yellow (for bright yellow)
+!XTerm*color12: #61AFEF  ! Light Blue (for bright blue)
+!XTerm*color13: #C678DD  ! Purple (for bright magenta)
+!XTerm*color14: #56B6C2  ! Soft Cyan (for bright cyan)
+!XTerm*color15: #FFFFFF  ! White (for bright white)
+
+XTerm*faceName: Fira Mono Nerd Font
+XTerm*faceSize: 10
+XTerm*cursorBlink: true
+XTerm*saveLines: 10000
+XTerm*utf8: true
+XTerm*termName: xterm-256color
+XTerm*VT100*scrollBar: false
+XTerm*scrollTtyOutput: false
+XTerm*bellIsUrgent: false
+XTerm*title: XTerm
+XTerm*selectToClipboard: true
+XTerm*highlightSelection: true
+XTerm*trimSelection: true
+XTerm*dynamicColors: true
+XTerm*allowTitleOps: true
+XTerm*colorMode: true
+XTerm*allowWindowOps: true
+
+XTerm*vt100.translations: #override \n\
+	  Ctrl <Key>-: smaller-vt-font() \n\
+    Ctrl <Key>+: larger-vt-font() \n\
+    Ctrl <Key>0: set-vt-font(d) \n\
+    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+	  Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+          
+!execute xrdb ~/.Xresources
