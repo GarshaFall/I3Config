@@ -1,0 +1,124 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: GarshaFall
+#+DESCRIPTION: Literate Emacs Configuration for Python, Go, and C++
+#+OPTIONS: toc:nil
+#+STARTUP: indent
+
+* Basic Configuration
+** Package Initialization
+   #+BEGIN_SRC UsePackage
+   ;; Initialize package sources and define repositories (MELPA, GNU, Org)
+   (require 'package)
+   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                            ("gnu" . "https://elpa.gnu.org/packages/")
+                            ("org" . "https://orgmode.org/elpa/")))
+   (package-initialize)
+
+   ;; Ensure `use-package` is installed, which simplifies package configuration
+   (unless (package-installed-p 'use-package)
+     (package-refresh-contents)
+     (package-install 'use-package))
+
+   ;; Automatically ensure packages are installed by default
+   (setq use-package-always-ensure t)
+   #+END_SRC
+
+** Terminal and Shell
+   #+BEGIN_SRC VTerm
+   ;; Install and configure vterm for terminal emulation
+   (use-package vterm
+     :ensure t
+     :config
+     (setq vterm-max-scrollback 10000))  ;; Increase scrollback buffer size
+
+   ;; Set bash as the default shell for vterm and other shell commands
+   (setq shell-file-name "/bin/bash")    ;; Specify the path to bash
+   (setq explicit-shell-file-name "/bin/bash")  ;; Ensure bash is used explicitly
+   (setq vterm-shell "/bin/bash")        ;; Use bash in vterm
+   #+END_SRC
+
+** UI Enhancements
+   #+BEGIN_SRC UIConf
+   ;; Disable unnecessary UI elements for a cleaner look
+   (menu-bar-mode -1)   ;; Disable menu bar
+   (tool-bar-mode -1)   ;; Disable tool bar
+   (scroll-bar-mode -1) ;; Disable scroll bar
+
+   ;; Disable startup screen
+   (setq inhibit-startup-screen t)
+
+   ;; Enable line and column numbers for better navigation
+   (global-display-line-numbers-mode t)
+   (column-number-mode t)
+
+   ;; Set default font to Fira Code with size 10
+   (set-face-attribute 'default nil
+                       :font "Fira Mono Nerd Font"
+                       :height 120)
+
+   ;; Load the `timu-macos` theme for a modern and aesthetic look
+   (use-package timu-rouge-theme
+     :config
+     (load-theme 'timu-rouge t))
+     (customize-set-variable 'timu-rouge-scale-org-document-title t)
+     (customize-set-variable 'timu-rouge-scale-org-document-info t)
+     (customize-set-variable 'timu-rouge-scale-org-level-1 t)
+     (customize-set-variable 'timu-rouge-scale-org-level-2 t)
+     (customize-set-variable 'timu-rouge-scale-org-level-3 t)
+     (customize-set-variable 'timu-rouge-org-intense-colors t)
+   #+END_SRC
+
+* Eglot and Autocomplete Configuration
+
+#+BEGIN_SRC emacs-lisp
+  -dnf install nodejs-bash-language-server clang
+  -pip install pyright	
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package eglot
+  :hook
+  	((c-mode c++-mode python-mode sh-mode) . eglot-ensure)
+  :config
+  	(add-to-list 'eglot-server-programs
+               '((c++-mode c-mode) . ("clang")))
+  	(add-to-list 'eglot-server-programs
+               '(python-mode . ("pylsp")))
+  	(add-to-list 'eglot-server-programs
+               '(sh-mode . ("bash-language-server"))))
+
+(use-package company
+  :hook (after-init . global-company-mode)
+  :config
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+;; Enable flymake with shorter timeout
+(setq flymake-no-changes-timeout 0.5)
+#+END_SRC
+
+* Keybindings
+** Terminal Keybinding
+   #+BEGIN_SRC emacs-lisp
+   ;; Add a keybinding to open vterm quickly
+   (global-set-key (kbd "C-c t") 'vterm)  ;; Use "C-c t" to open vterm
+   #+END_SRC
+
+* Direnv Integration
+** Install and Configure Direnv
+   #+BEGIN_SRC emacs-lisp
+   ;; Install and configure direnv integration
+   (use-package direnv
+     :ensure t
+     :config
+     (direnv-mode))  ;; Enable direnv globally
+
+   ;; Optional: Set custom behavior for direnv integration
+   ;; Automatically reload direnv environment after switching projects
+   (add-hook 'projectile-after-switch-project-hook #'direnv-update-environment)
+
+   ;; Reload direnv environment when opening new files
+   (add-hook 'find-file-hook #'direnv-update-environment)
+   #+END_SRC
