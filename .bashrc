@@ -54,7 +54,9 @@ ATOM_RESET="\[\033[0m\]"
 # ------------------------------------------------------------
 # Function to fetch Git status counts
 git_status_counts_prompt() {
-    # Check if inside a Git repository
+    # Check if inside a Git repositoryp
+    if git rev-parse --is-inside-work-tree &>/dev/null; then
+	
 	local branch=$(git symbolic-ref --short HEAD)
 	
 	local modified=$(git status --porcelain | grep -c '^ M')
@@ -63,70 +65,46 @@ git_status_counts_prompt() {
 	local untracked=$(git status --porcelain | grep -c '^??')
 	
 	# Initialize the Git status part of the prompt
-    local git_status=""
+	local git_status=""
 
 	# Format the status counts for the prompt
-	if ["$THEME" = "Rouge"]; then
-		# Append status counts to the git_status variable if they are greater than 
-        [ "$modified" -gt 0 ] && 
-        	git_status+="${ROUGE_MODIFIED_COLOR}M:$modified "
-        [ "$added" -gt 0 ] && 
-        	git_status+="${ROUGE_ADDED_COLOR}A:$added "
-        [ "$deleted" -gt 0 ] && 
-        	git_status+="${ROUGE_DELETED_COLOR}D:$deleted "
-        [ "$untracked" -gt 0 ] && 
-        	git_status+="${ROUGE_UNTRACKED_COLOR}U:$untracked "
-        # Add commits ahead and behind to the status string if they are not zero
-        git_status+="${ROUGE_DIR_COLOR}($branch) "
+	if [ "$THEME" = "ROUGE" ]; then
+	    # Append status counts to the git_status variable if they are greater than 
+            [ "$modified" -gt 0 ] && git_status+="${ROUGE_MODIFIED_COLOR}M:$modified "
+            [ "$added" -gt 0 ] && git_status+="${ROUGE_ADDED_COLOR}A:$added "
+            [ "$deleted" -gt 0 ] && git_status+="${ROUGE_DELETED_COLOR}D:$deleted "
+            [ "$untracked" -gt 0 ] && git_status+="${ROUGE_UNTRACKED_COLOR}U:$untracked "
+            # Add commits ahead and behind to the status string if they are not zero
+            git_status+="${ROUGE_DIR_COLOR}($branch) "
 	else
-        # Append status counts to the git_status variable if they are greater than 
-        [ "$modified" -gt 0 ] && 
-        	git_status+="${ATOM_MODIFIED_COLOR}M:$modified "
-        [ "$added" -gt 0 ] && 
-        	git_status+="${ATOM_ADDED_COLOR}A:$added "
-        [ "$deleted" -gt 0 ] && 
-        	git_status+="${ATOM_DELETED_COLOR}D:$deleted "
-        [ "$untracked" -gt 0 ] && 
-        	git_status+="${ATOM_UNTRACKED_COLOR}U:$untracked "
-        # Add commits ahead and behind to the status string if they are not zero
-        git_status+="${ATOM_DIR_COLOR}($branch) "
+            # Append status counts to the git_status variable if they are greater than 
+            [ "$modified" -gt 0 ] && git_status+="${ATOM_MODIFIED_COLOR}M:$modified "
+            [ "$added" -gt 0 ] && git_status+="${ATOM_ADDED_COLOR}A:$added "
+            [ "$deleted" -gt 0 ] && git_status+="${ATOM_DELETED_COLOR}D:$deleted "
+            [ "$untracked" -gt 0 ] && git_status+="${ATOM_UNTRACKED_COLOR}U:$untracked "
+            # Add commits ahead and behind to the status string if they are not zero
+            git_status+="${ATOM_DIR_COLOR}($branch) "
 	fi
 
-	echo "$git_status"
+	echo "$git_status "
+    else
+	echo ""
+    fi
 }
 
 # ------------------------------------------------------------
 # Prompt
 # ------------------------------------------------------------
-# Atom One Dark theme
-ATOM_NO_GIT="${ATOM_USER_COLOR}\u@${ATOM_HOST_COLOR}\h ${ATOM_DIR_COLOR}\w ${ATOM_PROMPT_SYMBOL_COLOR}\$ ${ATOM_RESET}"
-
-# Rouge theme
-ROUGE_NO_GIT="${ROUGE_USER_COLOR}\u@${ROUGE_HOST_COLOR}\h ${ROUGE_DIR_COLOR}\w ${ROUGE_PROMPT_SYMBOL_COLOR}\$ ${ROUGE_RESET}"
-
-# ------------------------------------------------------------
-# Git in Prompt
-# ------------------------------------------------------------
 # Atom One Dark theme colors and Git
-ATOM_GIT="${ATOM_USER_COLOR}\u@${ATOM_HOST_COLOR}\h ${ATOM_DIR_COLOR}\w${ATOM_RESET} \$(git_status_counts_prompt) ${ATOM_PROMPT_SYMBOL_COLOR}\$${ATOM_RESET} "
+ATOM_GIT="${ATOM_USER_COLOR}\u@${ATOM_HOST_COLOR}\h ${ATOM_DIR_COLOR}\w $(git_status_counts_prompt)${ATOM_PROMPT_SYMBOL_COLOR}\$${ATOM_RESET} "
 	
 # Rouge theme colors and Git 
-ROUGE_GIT="${ROUGE_USER_COLOR}\u@${ROUGE_HOST_COLOR}\h ${ROUGE_DIR_COLOR}\w${ROUGE_RESET} \$(git_status_counts_prompt) ${ROUGE_PROMPT_SYMBOL_COLOR}\$${ROUGE_RESET} "
+ROUGE_GIT="${ROUGE_USER_COLOR}\u@${ROUGE_HOST_COLOR}\h ${ROUGE_DIR_COLOR}\w $(git_status_counts_prompt)${ROUGE_PROMPT_SYMBOL_COLOR}\$${ROUGE_RESET} "
 
 # ------------------------------------------------------------
 # Eval PS1
 # ------------------------------------------------------------
-# Check for Git repository
-GIT_DIR=$(git rev-parse --is-inside-work-tree &>/dev/null && echo "true")
-
-# Prompt configuration
-if [ "$GIT_DIR" ] && [ "$THEME" = "Atom" ]; then
-    export PS1="$ATOM_GIT"
-elif [ "$GIT_DIR" ] && [ "$THEME" = "Rouge" ]; then
-    export PS1="$ROUGE_GIT"
-else
-    export PS1="${THEME}_NO_GIT"
-fi
+export PS1="${ROUGE_GIT}"
 
 # ------------------------------------------------------------
 # Path
