@@ -55,6 +55,7 @@
 #+END_SRC 
 
 * Doom modeline
+; M-x nerd-icons-install-fonts
 #+BEGIN_SRC emacs-lisp
 (use-package doom-modeline
   :ensure t
