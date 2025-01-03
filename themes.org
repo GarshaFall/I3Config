@@ -1,0 +1,237 @@
+#+title: themes for i3, polybar, rofi, Xresources, Bashrc
+#+author: Garsha
+
+* I3 Config Theme
+** Atom One Dark
+#+BEGIN_SRC dot
+client.focused          #61AFEF #282C34 #FFFFFF #61AFEF   #3E4451
+client.focused_inactive #3E4451 #282C34 #ABB2BF #282C34   #3E4451
+client.unfocused        #282C34 #21252B #ABB2BF #21252B   #21252B
+client.urgent           #E06C75 #282C34 #FFFFFF #E06C75   #282C34
+client.placeholder      #282C34 #282C34 #ABB2BF #282C34   #282C34
+client.background       #282C34
+#+END_QUOTE
+#+END_SRC
+
+** Timu Rouge
+#+BEGIN_SRC dot
+client.focused          #E06C75 #2C2A2B #FFFFFF #E06C75   #4B4647
+client.focused_inactive #4B4647 #2C2A2B #ABB2BF #2C2A2B   #4B4647
+client.unfocused        #2C2A2B #1E1D1E #8A8C8F #1E1D1E   #1E1D1E
+client.urgent           #F28FAD #2C2A2B #FFFFFF #F28FAD   #2C2A2B
+client.placeholder      #2C2A2B #2C2A2B #ABB2BF #2C2A2B   #2C2A2B
+client.background       #2C2A2B
+#+END_SRC
+
+** Rouge
+#+BEGIN_SRC dot
+client.focused          #D75F5F #3E1E1E #FFFFFF #D75F5F   #5E2B2B
+client.focused_inactive #5E2B2B #3E1E1E #D9A6A6 #3E1E1E   #5E2B2B
+client.unfocused        #3E1E1E #2E1A1A #A08A8A #2E1A1A   #2E1A1A
+client.urgent           #D35D6E #3E1E1E #FFFFFF #D35D6E   #3E1E1E
+client.placeholder      #3E1E1E #3E1E1E #D9A6A6 #3E1E1E   #3E1E1E
+client.background       #3E1E1E
+#+END_SRC
+
+* Polybar theme
+** Atom One Dark
+#+BEGIN_SRC dot
+[colors]
+background = #282C34
+foreground = #ABB2BF
+primary    = #61AFEF
+secondary  = #E06C75
+alert      = #E5C07B
+#+END_SRC
+
+** Timu Rouge
+#+BEGIN_SRC dot
+[colors]
+background = #2C2A2B
+foreground = #ABB2BF
+primary    = #E06C75
+secondary  = #F28FAD
+alert      = #D35D6E
+#+END_SRC
+
+** Rouge
+#+BEGIN_SRC dot
+[colors]
+background = #3E1E1E
+foreground = #D9A6A6
+primary    = #D75F5F
+secondary  = #D35D6E
+alert      = #F28FAD
+#+END_SRC
+
+** Default
+#+BEGIN_SRC dot
+[colors]
+background = #282A2E
+background-alt = #373B41
+foreground = #C5C8C6
+primary = #F0C674
+secondary = #8ABEB7
+alert = #A54242
+disabled = #707880
+#+END_SRC
+
+* Rofi Theme
+** Atom One Dark
+#+BEGIN_SRC dot
+* {
+    background: #282C34;
+    foreground: #ABB2BF;
+    selected-background: #61AFEF;
+    selected-foreground: #FFFFFF;
+    border-color: #98C379;
+    border: 2px;
+    spacing: 5px;
+    padding: 10px;
+}
+#+END_SRC
+
+** Timu Rouge
+#+BEGIN_SRC dot
+* {
+    background: #2C2A2B;
+    foreground: #ABB2BF;
+    selected-background: #E06C75;
+    selected-foreground: #FFFFFF;
+    border-color: #F28FAD;
+    border: 2px;
+    spacing: 5px;
+    padding: 10px;
+}
+#+END_SRC
+
+** Rouge
+#+BEGIN_SRC dot
+* {
+    background: #3E1E1E;
+    foreground: #D9A6A6;
+    selected-background: #D75F5F;
+    selected-foreground: #FFFFFF;
+    border-color: #D35D6E;
+    border: 2px;
+    spacing: 5px;
+    padding: 10px;
+}
+#+END_SRC
+
+* Xresources
+
+** Atom One Dark
+#+BEGIN_SRC dot
+! Atom One Dark Colors
+*.background: #282C34
+*.foreground: #ABB2BF
+*.cursorColor: #528BFF
+
+*.color0:  #282C34
+*.color1:  #E06C75
+*.color2:  #98C379
+*.color3:  #E5C07B
+*.color4:  #61AFEF
+*.color5:  #C678DD
+*.color6:  #56B6C2
+*.color7:  #ABB2BF
+*.color8:  #5C6370
+*.color9:  #E06C75
+*.color10: #98C379
+*.color11: #E5C07B
+*.color12: #61AFEF
+*.color13: #C678DD
+*.color14: #56B6C2
+*.color15: #FFFFFF
+#+END_SRC
+
+** Timu Rouge
+#+BEGIN_SRC dot
+! Timu Rouge Colors
+*.background: #2C2A2B
+*.foreground: #ABB2BF
+*.cursorColor: #E06C75
+
+*.color0:  #1E1D1E
+*.color1:  #E06C75
+*.color2:  #98C379
+*.color3:  #E5C07B
+*.color4:  #61AFEF
+*.color5:  #C678DD
+*.color6:  #56B6C2
+*.color7:  #ABB2BF
+*.color8:  #4B4647
+*.color9:  #E06C75
+*.color10: #98C379
+*.color11: #E5C07B
+*.color12: #61AFEF
+*.color13: #C678DD
+*.color14: #56B6C2
+*.color15: #ECEFF4
+#+END_SRC
+
+** Rouge
+#+BEGIN_SRC dot
+! Rouge Colors
+*.background: #3E1E1E
+*.foreground: #D9A6A6
+*.cursorColor: #D75F5F
+
+*.color0:  #2E1A1A
+*.color1:  #D75F5F
+*.color2:  #A06E6E
+*.color3:  #D39D7B
+*.color4:  #A06E6E
+*.color5:  #D35D6E
+*.color6:  #D28A8A
+*.color7:  #D9A6A6
+*.color8:  #5E2B2B
+*.color9:  #D75F5F
+*.color10: #A06E6E
+*.color11: #D39D7B
+*.color12: #A06E6E
+*.color13: #D35D6E
+*.color14: #D28A8A
+*.color15: #FFFFFF
+#+END_SRC
+
+* Bashrc
+** Atom One Dark
+#+BEGIN_SRC dot
+ATOM_USER_COLOR="\[\033[38;5;75m\]"        # Blue (#61AFEF)
+ATOM_HOST_COLOR="\[\033[38;5;108m\]"       # Green (#98C379)
+ATOM_DIR_COLOR="\[\033[38;5;204m\]"        # Pink (#C678DD)
+ATOM_MODIFIED_COLOR="\[\033[38;5;203m\]"   # Red (#E06C75)
+ATOM_ADDED_COLOR="\[\033[38;5;180m\]"      # Yellow (#E5C07B)
+ATOM_DELETED_COLOR="\[\033[38;5;131m\]"    # Orange (#D19A66)
+ATOM_UNTRACKED_COLOR="\[\033[38;5;245m\]"  # Gray (#5C6370)
+ATOM_PROMPT_SYMBOL_COLOR="\[\033[38;5;247m\]" # Light Gray (#ABB2BF)
+ATOM_RESET="\[\033[0m\]"
+#+END_SRC
+
+** Rouge
+#+BEGIN_SRC dot
+ROUGE_USER_COLOR="\[\033[38;5;214m\]"   # Golden Yellow (#E5C07B)
+ROUGE_HOST_COLOR="\[\033[38;5;208m\]"   # Warm Orange (#D19A66)
+ROUGE_DIR_COLOR="\[\033[38;5;167m\]"    # Purple (#C678DD)
+ROUGE_MODIFIED_COLOR="\[\033[38;5;203m\]"  # Soft Red (#E06C75)
+ROUGE_ADDED_COLOR="\[\033[38;5;208m\]"     # Warm Orange (#D19A66)
+ROUGE_DELETED_COLOR="\[\033[38;5;167m\]"   # Purple (#C678DD)
+ROUGE_UNTRACKED_COLOR="\[\033[38;5;214m\]" # Golden Yellow (#E5C07B)
+ROUGE_PROMPT_SYMBOL_COLOR="\[\033[38;5;141m\]" # Soft Cyan (#56B6C2)
+ROUGE_RESET="\[\033[0m\]"
+#+END_SRC
+
+** Timu Rouge
+#+BEGIN_SRC dot
+TIMU_ROUGE_USER_COLOR="\[\033[38;5;211m\]"       # Soft Pink (#F28FAD)
+TIMU_ROUGE_HOST_COLOR="\[\033[38;5;210m\]"       # Warm Pink (#D35D6E)
+TIMU_ROUGE_DIR_COLOR="\[\033[38;5;141m\]"        # Soft Cyan (#56B6C2)
+TIMU_ROUGE_MODIFIED_COLOR="\[\033[38;5;203m\]"   # Vibrant Red (#E06C75)
+TIMU_ROUGE_ADDED_COLOR="\[\033[38;5;108m\]"      # Light Green (#A3BE8C)
+TIMU_ROUGE_DELETED_COLOR="\[\033[38;5;167m\]"    # Light Purple (#C678DD)
+TIMU_ROUGE_UNTRACKED_COLOR="\[\033[38;5;178m\]"  # Golden Yellow (#E5C07B)
+TIMU_ROUGE_PROMPT_SYMBOL_COLOR="\[\033[38;5;211m\]" # Soft Pink (#F28FAD)
+TIMU_ROUGE_RESET="\[\033[0m\]"
+#+END_SRC
