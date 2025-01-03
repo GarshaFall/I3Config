@@ -94,26 +94,42 @@
      (customize-set-variable 'timu-rouge-org-intense-colors t)
 #+END_SRC
 
-* Eglot and Autocomplete Configuration
+* LSP and Autocomplete Configuration
 #+BEGIN_SRC emacs-lisp
   ;;dnf install nodejs-bash-language-server clang
   ;;pip install pyright
-  (use-package eglot
-    :hook
-          ((c-mode c++-mode python-mode sh-mode) . eglot-ensure)
-    :config
-          (add-to-list 'eglot-server-programs
-                 '((c++-mode c-mode) . ("clang")))
-          (add-to-list 'eglot-server-programs
-                 '(python-mode . ("pylsp")))
-          (add-to-list 'eglot-server-programs
-                 '(sh-mode . ("bash-language-server"))))
+;; Ensure required packages are installed
+(use-package lsp-mode
+  :ensure t
+  :hook ((c-mode c++-mode python-mode sh-mode) . lsp-deferred)
+  :commands lsp
+  :config
+  ;; Configure LSP servers
+  (setq lsp-clients-clangd-executable "clangd") ;; Ensure clangd is installed
+  (setq lsp-pylsp-server-command "pylsp")       ;; Ensure python-lsp-server is installed
+  (setq lsp-bash-language-server-command "bash-language-server") ;; Ensure bash-language-server is installed
+  ;; General settings
+  (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-enable-symbol-highlighting t)
+  
+(use-package company
+  :ensure t
+  :hook (after-init . global-company-mode)
+  :config
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1))
 
-  (use-package company
-    :hook (after-init . global-company-mode)
-    :config
-    (setq company-idle-delay 0.1
-          company-minimum-prefix-length 1))
+;; Optional: lsp-ui for additional features like documentation popups
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-delay 0.2
+        lsp-ui-doc-position 'at-point
+        lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-hover t))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
