@@ -10,7 +10,6 @@ client.unfocused        #282C34 #21252B #ABB2BF #21252B   #21252B
 client.urgent           #E06C75 #282C34 #FFFFFF #E06C75   #282C34
 client.placeholder      #282C34 #282C34 #ABB2BF #282C34   #282C34
 client.background       #282C34
-#+END_QUOTE
 #+END_SRC
 
 ** Timu Rouge
