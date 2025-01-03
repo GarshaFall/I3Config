@@ -1,0 +1,15 @@
+#+title: I3Config
+#+author: Garsha
+
+* Dependencies 
+** Fonts
+  + [[https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraMono.zip]]
+  + [[https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Noto.zip]]
+
+** System
+  sudo dnf install git make cmake gcc clang python3-pip micro emacs xterm rofi picom papirus-icon-theme feh libtool
+
+** Emacs
+  + sudo dnf install nodejs-bash-language-server llvm17 direnv
+  + pip install pyright
+  + sudo npm install -g tree-sitter-cli
