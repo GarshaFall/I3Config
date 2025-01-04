@@ -4,23 +4,24 @@
 #+OPTIONS: toc:nil
 #+STARTUP: indent
 
-* Basic Configuration
+* Global Configuration
+
 ** Package Initialization
    #+BEGIN_SRC emacs-lisp
-   ;; Initialize package sources and define repositories (MELPA, GNU, Org)
-   (require 'package)
-   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                            ("gnu" . "https://elpa.gnu.org/packages/")
-                            ("org" . "https://orgmode.org/elpa/")))
-   (package-initialize)
+     ;; Initialize package sources and define repositories (MELPA, GNU, Org)
+     (require 'package)
+     (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                              ("gnu" . "https://elpa.gnu.org/packages/")
+                              ("org" . "https://orgmode.org/elpa/")))
+     (package-initialize)
 
-   ;; Ensure `use-package` is installed, which simplifies package configuration
-   (unless (package-installed-p 'use-package)
-     (package-refresh-contents)
-     (package-install 'use-package))
+     ;; Ensure `use-package` is installed, which simplifies package configuration
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
 
-   ;; Automatically ensure packages are installed by default
-   (setq use-package-always-ensure t)
+     ;; Automatically ensure packages are installed by default
+     (setq use-package-always-ensure t)
    #+END_SRC
 
 ** Terminal and Shell
@@ -36,25 +37,25 @@
    (setq explicit-shell-file-name "/bin/bash")  ;; Ensure bash is used explicitly
    (setq vterm-shell "/bin/bash")        ;; Use bash in vterm
    #+END_SRC
-* Dashboard
+   
+** Dashboard
 #+BEGIN_SRC emacs-lisp 
-(use-package dashboard
-  :ensure t
-  :config
-  ;; Set a custom logo
-  (setq dashboard-startup-banner "/path/to/your/logo.png") ;; Replace with the path to your logo
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-startup-banner "/home/garsha/Pictures/portal_ui.png")
+    (setq dashboard-items '((recents  . 10) ;; Show 10 recent files
+                            (bookmarks . 5) ;; Optional: Show 5 bookmarks
+                            (projects . 5)  ;; Optional: Show 5 projects
+                            ))
+    (setq dashboard-center-content t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-footer-messages '("Welcome to your custom Emacs!")))
+    #+END_SRC 
 
-  ;; Set up the items to display
-  (setq dashboard-items '((recents  . 10) ;; Show 10 recent files
-                          (bookmarks . 5) ;; Optional: Show 5 bookmarks
-                          (projects . 5)  ;; Optional: Show 5 projects
-                          ))
-
-  ;; Add a custom footer message
-  (setq dashboard-footer-messages '("Welcome to your custom Emacs!"))
-#+END_SRC 
-
-* Doom modeline
+** Doom modeline
 ; M-x nerd-icons-install-fonts
 #+BEGIN_SRC emacs-lisp
 (use-package doom-modeline
@@ -64,73 +65,71 @@
   (doom-modeline-height 25)) ;; Adjust height
 #+END_SRC
 
-** UI Enhancements
+** UI Configuration
+
    #+BEGIN_SRC emacs-lisp
-   ;; Disable unnecessary UI elements for a cleaner look
-   (menu-bar-mode -1)   ;; Disable menu bar
-   (tool-bar-mode -1)   ;; Disable tool bar
-   (scroll-bar-mode -1) ;; Disable scroll bar
+     ;; Disable unnecessary UI elements for a cleaner look
+     (menu-bar-mode -1)   ;; Disable menu bar
+     (tool-bar-mode -1)   ;; Disable tool bar
+     (scroll-bar-mode -1) ;; Disable scroll bar
 
-   ;; Disable startup screen
-   (setq inhibit-startup-screen t)
+     ;; Disable startup screen
+     ;;(setq inhibit-startup-screen t)
 
-   ;; Enable line and column numbers for better navigation
-   (global-display-line-numbers-mode t)
-   (column-number-mode t)
+     ;; Enable line and column numbers for better navigation
+     (global-display-line-numbers-mode t)
+     (column-number-mode t)
 
-   ;; Set default font to Fira Code with size 10
-   (set-face-attribute 'default nil
-                       :font "Fira Mono Nerd Font"
-                       :height 120)
+     ;; Set default font to Fira Code with size 10
+     (set-face-attribute 'default nil
+                         :font "Fira Mono Nerd Font"
+                         :height 120)
 
-   ;; Load the `timu-macos` theme for a modern and aesthetic look
-   (use-package timu-rouge-theme
-     :config
-     (load-theme 'timu-rouge t))
-     (customize-set-variable 'timu-rouge-scale-org-document-title t)
-     (customize-set-variable 'timu-rouge-scale-org-document-info t)
-     (customize-set-variable 'timu-rouge-scale-org-level-1 t)
-     (customize-set-variable 'timu-rouge-scale-org-level-2 t)
-     (customize-set-variable 'timu-rouge-scale-org-level-3 t)
-     (customize-set-variable 'timu-rouge-org-intense-colors t)
+     ;; Load the `timu-macos` theme for a modern and aesthetic look
+     (use-package timu-rouge-theme
+       :config
+       (load-theme 'timu-rouge t)
+       (customize-set-variable 'timu-rouge-scale-org-document-title t)
+       (customize-set-variable 'timu-rouge-scale-org-document-info t)
+       (customize-set-variable 'timu-rouge-scale-org-level-1 t)
+       (customize-set-variable 'timu-rouge-scale-org-level-2 t)
+       (customize-set-variable 'timu-rouge-scale-org-level-3 t)
+       (customize-set-variable 'timu-rouge-org-intense-colors t))
 #+END_SRC
 
-* LSP and Autocomplete Configuration
+* Eglot and Autocomplete Configuration
 #+BEGIN_SRC emacs-lisp
-  ;;dnf install nodejs-bash-language-server clang
-  ;;pip install pyright
-;; Ensure required packages are installed
-(use-package lsp-mode
-  :ensure t
-  :hook ((c-mode c++-mode python-mode sh-mode) . lsp-deferred)
-  :commands lsp
-  :config
-  ;; Configure LSP servers
-  (setq lsp-clients-clangd-executable "clangd") ;; Ensure clangd is installed
-  (setq lsp-pylsp-server-command "pylsp")       ;; Ensure python-lsp-server is installed
-  (setq lsp-bash-language-server-command "bash-language-server") ;; Ensure bash-language-server is installed
-  ;; General settings
-  (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-enable-symbol-highlighting t)
-  
-(use-package company
-  :ensure t
-  :hook (after-init . global-company-mode)
-  :config
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 1))
+    ;;dnf install nodejs-bash-language-server clang
+    ;;pip install pyright
+  ;; Ensure required packages are installed
+  (use-package eglot
+    :ensure t
+    :hook ((sh-mode . eglot-ensure)
+           ((c++-mode c-mode) . eglot-ensure)
+           (python-mode . eglot-ensure))
+    :config
+    ;; Language server configurations
+    (add-to-list 'eglot-server-programs
+                 '(sh-mode . ("bash-language-server" "start")))
+    (add-to-list 'eglot-server-programs
+                 '(c++-mode . ("clangd")))
+    (add-to-list 'eglot-server-programs
+                 '(python-mode . ("pylsp")))
 
-;; Optional: lsp-ui for additional features like documentation popups
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-doc-enable t
-        lsp-ui-doc-delay 0.2
-        lsp-ui-doc-position 'at-point
-        lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-hover t))
+    ;; Enable additional eglot settings if needed
+    (setq eglot-events-buffer-size 0)  ;; Disable events buffer
+    (setq eglot-ignored-server-capabilities '()) ;; Ignore server capabilities to avoid clashes            
+    (setq eglot-print-io t)  ;; This will print communication between Emacs and the language server
+    (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
+    (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "C-c a") 'eglot-code-actions))
+
+  (use-package company
+    :ensure t
+    :hook (eglot-managed-mode . company-mode)
+    :config
+    (setq company-idle-delay 0.1
+          company-minimum-prefix-length 1))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -139,8 +138,8 @@
 #+END_SRC
 
 * Keybindings
-** Terminal Keybinding
+** VTerm
    #+BEGIN_SRC emacs-lisp
-   ;; Add a keybinding to open vterm quickly
    (global-set-key (kbd "C-c t") 'vterm)  ;; Use "C-c t" to open vterm
    #+END_SRC
+   
