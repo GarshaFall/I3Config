@@ -13,3 +13,7 @@
   + sudo dnf install nodejs-bash-language-server llvm17 direnv
   + pip install pyright
   + sudo npm install -g tree-sitter-cli
+
+** Pyaudio
+  + sudo dnf install portaudio-devel python3-devel
+  + pip install portaudio
