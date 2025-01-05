@@ -1,1 +1,134 @@
+#+TITLE: Complete C++ program that interacts with OpenAI's API, using `libcurl` for sending HTTP requests and `nlohmann/json` for parsing JSON responses
+#+AUTHOR: GhatGPT
 
+* Prerequisites
+#+BEGIN_SRC dot
+  **libcurl**: Install `libcurl` for sending HTTP requests.
+  **nlohmann/json**: Install or include the [nlohmann/json](https://github.com/nlohmann/json) library to handle JSON parsing in C++.
+#+END_SRC
+
+* Full C++ Code:
+#+BEGIN_SRC cpp
+#include <iostream>
+#include <string>
+#include <curl/curl.h>
+#include <nlohmann/json.hpp> // Include the nlohmann JSON library
+
+// Use the nlohmann json namespace for convenience
+using json = nlohmann::json;
+
+// Callback function to handle the response data from the OpenAI API
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+    // Append the response data to the user buffer (in this case, 'readBuffer')
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
+}
+
+int main() {
+    CURL* curl;
+    CURLcode res;
+    std::string readBuffer;
+
+    // Initialize libcurl
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
+
+    if (curl) {
+        // OpenAI API endpoint for completions (replace with the model you want to use)
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/completions");
+
+        // Set HTTP method to POST
+        curl_easy_setopt(curl, CURLOPT_POST, 1L);
+
+        // Set the Authorization header with your OpenAI API key
+        // Replace "YOUR_OPENAI_API_KEY" with your actual API key
+        struct curl_slist* headers = nullptr;
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        headers = curl_slist_append(headers, "Authorization: Bearer YOUR_OPENAI_API_KEY");
+
+        // Set the headers for the request
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        // Prepare the JSON body for the request
+        // This will send a prompt to the OpenAI model for completion
+        json jsonData = {
+            {"model", "text-davinci-003"},  // Specify the model you want to use
+            {"prompt", "Say something interesting about C++."}, // The prompt you want to send
+            {"max_tokens", 50} // The maximum number of tokens the model can generate
+        };
+
+        // Convert the JSON object to a string
+        std::string jsonString = jsonData.dump();
+
+        // Set the request body (the JSON string)
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonString.c_str());
+
+        // Set the callback function to handle the response data
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+        // Perform the HTTP request
+        res = curl_easy_perform(curl);
+        if (res != CURLE_OK) {
+            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
+        } else {
+            // Output the raw response received from OpenAI API
+            std::cout << "Response: " << readBuffer << std::endl;
+
+            // Parse the JSON response using nlohmann JSON library
+            try {
+                json responseJson = json::parse(readBuffer); // Parse the response into a JSON object
+
+                // Extract the response text (completion) from the JSON response
+                std::string responseText = responseJson["choices"][0]["text"];
+                std::cout << "Generated Text: " << responseText << std::endl; // Output the generated text
+            } catch (const json::exception& e) {
+                std::cerr << "Error parsing JSON response: " << e.what() << std::endl;
+            }
+        }
+
+        // Clean up: free the curl handle and the headers list
+        curl_easy_cleanup(curl);
+        curl_slist_free_all(headers);
+    }
+
+    // Clean up global curl data
+    curl_global_cleanup();
+
+    return 0;
+}
+#+END_SRC 
+
+* Explanation of the Code:
+#+BEGIN_SRC dot
+1. **Libraries Used**:
+   - `libcurl` is used to make HTTP requests.
+   - `nlohmann/json` is used to parse and handle JSON data in C++.
+
+2. **Setup `libcurl`**:
+   - `curl_easy_init()` initializes the `curl` handle, which is used to configure the request.
+   - `curl_easy_setopt()` is used to set options like the URL, HTTP method (`POST`), headers, and body (JSON payload).
+
+3. **Setting the Request Headers**:
+   - The header `Content-Type: application/json` is set to tell the server that the request body is JSON.
+   - The `Authorization` header contains your OpenAI API key in the form `Bearer YOUR_OPENAI_API_KEY`.
+
+4. **Preparing the JSON Payload**:
+   - The `jsonData` object is created using the `nlohmann::json` library, which holds the request body data, including:
+     - `model`: The OpenAI model you want to use (e.g., `text-davinci-003`).
+     - `prompt`: The input text that will be fed to the model.
+     - `max_tokens`: The maximum number of tokens (words or word pieces) to generate.
+   - `jsonData.dump()` converts the JSON object into a string that can be sent in the body of the HTTP request.
+
+5. **Performing the Request**:
+   - `curl_easy_perform()` sends the request to the OpenAI API and stores the response in the `readBuffer`.
+
+6. **Handling the Response**:
+   - The `WriteCallback` function is called when the response data is received, and it appends the data to `readBuffer`.
+   - After the request is complete, the response is printed to the console.
+   - The response is parsed as JSON using `json::parse()`, and the generated text is extracted and printed.
+
+7. **Error Handling**:
+   - If there’s a problem with the HTTP request, `curl_easy_perform()` will return an error, and the program will display the error message.
+   - If the response cannot be parsed as JSON, an exception is caught, and an error message is shown.
+#+END_SRC
