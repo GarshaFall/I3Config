@@ -7,7 +7,7 @@
   + [[https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Noto.zip]]
 
 ** System
-  sudo dnf install git make cmake gcc clang python3-pip micro emacs xterm rofi picom papirus-icon-theme feh libtool
+  sudo dnf install git make cmake gcc clang python3-pip micro emacs xterm rofi picom papirus-icon-theme feh libtool alsa-firmware
 
 ** Emacs
   + sudo dnf install nodejs-bash-language-server llvm17 direnv
@@ -15,5 +15,5 @@
   + sudo npm install -g tree-sitter-cli
 
 ** Pyaudio & ALSA
-  + sudo dnf install portaudio-devel python3-devel alsa-lib alsa-firmware alsa-utils
+  + sudo dnf install portaudio-devel alsa-lib-devel python3-devel alsa-lib alsa-utils
   + pip install portaudio
