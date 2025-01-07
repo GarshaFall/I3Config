@@ -17,3 +17,5 @@
 ** Pyaudio & ALSA
   + sudo dnf install portaudio-devel alsa-lib-devel python3-devel alsa-lib alsa-utils
   + pip install portaudio
+** XTerm Img display
+ + sudo dnf install w3m w3m-img chafa caca-utils
