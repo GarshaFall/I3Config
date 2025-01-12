@@ -138,6 +138,20 @@
 (setq flymake-no-changes-timeout 0.5)
 #+END_SRC
 
+** Multicursor and line mv
+#+BEGIN_SRC emacs-lisp
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-c C->" . mc/mark-all-like-this)))
+
+(use-package move-text
+  :ensure t
+  :bind (("M-<up>" . move-text-up)
+         ("M-<down>" . move-text-down)))
+#+END_SRC
+
 * Keybindings
 ** VTerm
 #+BEGIN_SRC emacs-lisp
